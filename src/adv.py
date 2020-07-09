@@ -66,7 +66,11 @@ What (other) items the user will found?
 
 Plan:
 
-Starts in the Outside. You can only move north
+Starts in the Outside. You can only move north to the Foyer.
+
+We have to ask the player where they want to move.
+
+
 
 
 '''
@@ -80,9 +84,8 @@ Starts in the Outside. You can only move north
 
 '''  Game code  '''
 
+user_name = input('Asign a name to the player: ')
 playing = True
-
-user_name = input('Asign a name to the player.')
 
 user = Player(user_name)
 
@@ -90,6 +93,26 @@ print(user)
 
 while playing:
 
-    move = input('Select a movement according to compass: North [N], South [S], East [E], West [W]')
+    move = input('Select a movement according to compass: North [N], South [S], East [E], West [W], or Quit [Q]: ').upper()
 
-    
+    if move  == 'Q':
+        playing = False
+
+    elif move == 'N':
+        user.n_to()
+        print(user.croom)
+        
+    elif move == 'S':
+        print(user.croom)
+
+    elif move == 'E':
+        print(user.croom)
+
+    elif move == 'W':
+        print(user.croom)
+
+    else:
+        print(f'Please, select a valid entry and try again. \n Btw, you are in the room: {user.croom}.')
+
+        
+        

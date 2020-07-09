@@ -10,3 +10,16 @@ class Player():
         output = f"Player name: {self.name}\n Current Room: {self.croom}"
         
         return output
+    
+    def n_to(self):
+
+
+        if self.croom == 'outside':
+            self.croom = 'foyer'
+        elif self.croom == 'foyer':
+            self.croom == 'overlook'
+        elif self.croom == 'narrow':
+            self.croom == 'treasure'
+        else:
+            print("There's no way North.")
+
