@@ -1,4 +1,7 @@
+from item import Item
+from player import Player
 from room import Room
+
 
 # Declare all the rooms
 
@@ -49,3 +52,67 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+''' Understand - Plan - Execute - Reflect
+
+Questions:
+
+How the end user will interact with the game?
+Can the user go back?
+Does the game finish when you approach the Chamber?
+Are there doors and do the user need items to open doors?
+What (other) items the user will found?
+
+
+Plan:
+
+Starts in the Outside. You can only move north to the Foyer.
+
+We have to ask the player where they want to move.
+
+
+
+
+'''
+
+
+
+
+
+
+
+
+'''  Game code  '''
+
+user_name = input('Asign a name to the player: ')
+playing = True
+
+user = Player(user_name)
+
+print(user)
+
+while playing:
+
+    move = input('Select a movement according to compass: North [N], South [S], East [E], West [W], or Quit [Q]: ').upper()
+
+    if move  == 'Q':
+        playing = False
+
+    elif move == 'N':
+        user.n_to()
+        print(user.croom)
+        
+    elif move == 'S':
+        print(user.croom)
+
+    elif move == 'E':
+        print(user.croom)
+
+    elif move == 'W':
+        print(user.croom)
+
+    else:
+        print(f'Please, select a valid entry and try again. \n Btw, you are in the room: {user.croom}.')
+
+        
+        
