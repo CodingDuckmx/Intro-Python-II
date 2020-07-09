@@ -7,14 +7,14 @@ from room import Room
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", [Item('stone','A simple stone.'), Item('tree limb','A tree limb ready to be on fire.')]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", [Item('gasoline', 'A galon of gasoline.')]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -23,6 +23,8 @@ to north. The smell of gold permeates the air."""),
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
+
+
 
 
 # Link rooms together
@@ -36,9 +38,13 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
 #
 # Main
 #
+
+
+
 
 # Make a new player object that is currently in the 'outside' room.
 
@@ -84,35 +90,42 @@ We have to ask the player where they want to move.
 
 '''  Game code  '''
 
+insert_options = ['N','S','E','W','Q']
+
 user_name = input('Asign a name to the player: ')
 playing = True
 
 user = Player(user_name)
+user.croom = room['outside']
 
-print(user)
+print(user,'\n ', user.croom.description)
+if user.croom.items :
+    print(f'In this room you can get this items: {user.croom.items}')
+    grab = input('Would you like to grab the stone: Yes [Y] or No [N].')
+
+    
 
 while playing:
 
+
     move = input('Select a movement according to compass: North [N], South [S], East [E], West [W], or Quit [Q]: ').upper()
 
-    if move  == 'Q':
-        playing = False
+    if move in insert_options:
 
-    elif move == 'N':
-        user.n_to()
-        print(user.croom)
-        
-    elif move == 'S':
-        print(user.croom)
+        if move  == 'Q':
+            playing = False
 
-    elif move == 'E':
-        print(user.croom)
+        else:
 
-    elif move == 'W':
-        print(user.croom)
+            user.move_to(move)
+            print(f'You are in in/at {user.croom.name}.')
+            if user.croom.items :
+                print(f'In this room you can get this items: {user.croom.items}')
+
+            
 
     else:
-        print(f'Please, select a valid entry and try again. \n Btw, you are in the room: {user.croom}.')
+        print(f'Please, select a valid entry and try again. \n Btw, you are in the room: {user.croom.name}.')
 
-        
-        
+            
+            
