@@ -76,34 +76,57 @@ Starts in the Outside. You can only move north to the Foyer.
 
 We have to ask the player where they want to move.
 
-
-
-
 '''
-
-
-
-
-
-
 
 
 '''  Game code  '''
 
 insert_options = ['N','S','E','W','Q']
+yes_no = ['Y','N']
 
 user_name = input('Asign a name to the player: ')
 playing = True
+chamber = False
 
 user = Player(user_name)
 user.croom = room['outside']
 
-print(user,'\n ', user.croom.description)
+print(f'Welcome {user.name} to this adventure game, you are in the room {user.croom.name}. \n {user.croom.description}.')
+print('To win the game you will have to be able to return to the beginning point safe.')
+print('You could die in the darkness, consider that.')
+print('Be aware you can only pickup one item per room. Be wise.')
 if user.croom.items :
     print(f'In this room you can get this items: {user.croom.items}')
     grab = input('Would you like to grab the stone: Yes [Y] or No [N].')
-
     
+    if grab == 'Y':
+
+        user.croom.items.pop(0)
+        user.inventory.append('stone')
+        print('Stone has been added to your bag.')
+
+    elif grab == 'N':
+ 
+        grab = input('Would you like to grab the tree limb: Yes [Y] or No [N].')
+    
+        if grab == 'Y':
+
+            user.croom.items.pop(1)
+            user.inventory.append('tree limb')
+            print('Tree limb has been added to your bag.')
+            user.croom.items.clear()
+
+        elif grab == 'N':
+
+            user.croom.items.clear()
+        
+        else:
+            
+            print('Be sure to select Yes [Y] or No [N], please.')
+
+    else:
+        
+        print('Be sure to select Yes [Y] or No [N], please.')
 
 while playing:
 
@@ -121,8 +144,52 @@ while playing:
             print(f'You are in in/at {user.croom.name}.')
             if user.croom.items :
                 print(f'In this room you can get this items: {user.croom.items}')
+                grab = input('Would you like to grab the gasoline: Yes [Y] or No [N].')
+                
+                if grab == 'Y':
 
-            
+                    user.croom.items.clear()
+                    user.inventory.append('gasoline')
+                    print('Gasoline has been added to your bag.')
+
+                    light_torch = input('Would you use the gasoline and the limb to turn them into a lighted torch? ')
+
+                    if light_torch == 'Y':
+
+                        user.inventory.clear()
+                        user.inventory.append('torch')
+                        print('Now with the torch you can see better your way.')
+
+                    elif light_torch == 'N':
+
+                        print('A lighted torch could be good for you.')
+                    
+                    else:
+                        
+                        print('Be sure to select Yes [Y] or No [N], please.')
+
+
+                elif grab == 'N':
+
+                    grab = input('The gasoline would be useful to light a torch.')
+
+
+                else:
+                    
+                    print('Be sure to select Yes [Y] or No [N], please.')
+
+            if user.croom.name == 'Treasure Chamber':
+                chamber = True
+
+                if 'torch' not in user.inventory:
+
+                    print('You lost.')
+                    playing = False
+
+            if user.croom.name == 'Outside Cave Entrance' and 'torch' in user.inventory and chamber == True:
+
+                print("You've won.")
+                playing = False
 
     else:
         print(f'Please, select a valid entry and try again. \n Btw, you are in the room: {user.croom.name}.')
